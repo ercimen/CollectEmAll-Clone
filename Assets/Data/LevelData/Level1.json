@@ -1,0 +1,20 @@
+{
+  "level_number": 1,
+  "total_move": 25,
+  "row": 7,
+  "column": 7,
+  "target_objectives": [
+    {
+      "count": 10,
+      "name": "item1"
+    },
+    {
+      "count": 15,
+      "name": "item2"
+    },
+    {
+      "count": 20,
+      "name": "item3"
+    }
+  ]
+}
