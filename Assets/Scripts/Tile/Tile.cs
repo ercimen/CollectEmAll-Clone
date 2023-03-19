@@ -101,12 +101,26 @@ public class Tile : MonoBehaviour, ISelectable
 
     public void SetSelectStatus(bool value)
     {
-        _canSelect = true;
+        _canSelect = value;
+
+#if UNITY_EDITOR
+        _spriteRenderer.color = Color.green;
+#endif
+
     }
 
+#if UNITY_EDITOR
     private void OnMouseDown()
     {
-        Debug.LogWarning(_tileIndex);
+        Debug.LogWarning(_tileIndex+" Clicked");
+        MatchManager.Instance.CheckNeighbors(this);
     }
+
+    private void OnMouseExit()
+    {
+        
+    }
+
+#endif
 }
 

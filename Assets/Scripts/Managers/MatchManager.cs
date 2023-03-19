@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class MatchManager : SingletonBase<MatchManager>
@@ -71,9 +72,26 @@ public class MatchManager : SingletonBase<MatchManager>
         }
     }
 
-    public void SelectNeighbors(Tile selectedTile)
+    public void CheckNeighbors(Tile selectedTile)
     {
+        int2 tileIndex = selectedTile.GetTileIndex();
+        Debug.LogWarning(tileIndex);
 
+         
+        for (int i = tileIndex.x - 1; i <= tileIndex.x + 1; i++)
+        {
+            if (i < 0 || i >= tiles.GetLength(0)) continue;
+
+            for (int j = tileIndex.y - 1; j <= tileIndex.y + 1; j++)
+            { 
+                if (j < 0  || j >= tiles.GetLength(1)) continue;
+     
+                if (selectedTile.GetTileNumber() ==tiles[i,j].GetTileNumber())
+                {
+                    tiles[i, j].SetSelectStatus(true);
+                }
+            }
+        }
     }
 
 }
