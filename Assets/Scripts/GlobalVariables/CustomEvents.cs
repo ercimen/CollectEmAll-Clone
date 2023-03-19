@@ -11,6 +11,7 @@ public static class CustomEvents
 
     #region TileEvents
     public const string onResetTiles = nameof(onResetTiles);
+    public const string onSelectEnd = nameof(onSelectEnd);
     #endregion
 
 }

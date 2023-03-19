@@ -90,4 +90,12 @@ public class MatchManager : SingletonBase<MatchManager>
         }
     }
 
+    public void MatchTiles(Dictionary<Tile,int> matchedTiles)
+    {
+        foreach (KeyValuePair<Tile, int> tile in matchedTiles)
+        {
+            tile.Key.SetState(TileState.Matched);
+        }
+    }
+
 }

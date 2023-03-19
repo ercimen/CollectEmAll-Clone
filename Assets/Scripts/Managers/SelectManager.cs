@@ -107,9 +107,14 @@ public class SelectManager : SingletonBase<SelectManager>
             return;
         }
 
-        EventManager.Instance.Publish(CustomEvents.onResetTiles);
+        EventManager.Instance.Publish(CustomEvents.onSelectEnd);
 
         _onDown = false;
+
+        if (_selectedTiles.Count >= 3)
+        {
+            MatchManager.Instance.MatchTiles(_selectedTiles);
+        }
 
         _selectedTiles.Clear();
     }

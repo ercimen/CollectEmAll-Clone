@@ -16,18 +16,35 @@ public class Tile : MonoBehaviour, ISelectable
 
     private void OnEnable()
     {
+        InitTile();
+
         EventManager.Instance.Subscribe(CustomEvents.onResetTiles, ResetTile);
+        EventManager.Instance.Subscribe(CustomEvents.onSelectEnd, ResetLines);
+
     }
 
     private void OnDisable()
     {
         EventManager.Instance.UnSubscribe(CustomEvents.onResetTiles, ResetTile);
+        EventManager.Instance.UnSubscribe(CustomEvents.onSelectEnd, ResetLines);
     }
 
+
+    private void InitTile()
+    {
+        SetState(TileState.Idle);
+        SetSelectStatus(false);
+        transform.localScale = Vector3.one;
+    }
     private void ResetTile(object[] arguments)
     {
         SetState(TileState.Idle);
         SetSelectStatus(false);
+    }
+
+    private void ResetLines(object[] arguments)
+    {
+        DrawLine(transform.position);
     }
 
     public int2 GetTileIndex()
@@ -103,14 +120,13 @@ public class Tile : MonoBehaviour, ISelectable
 
     private void MatchedStateUpdate()
     {
+        transform.DOScale(Vector2.zero, 0.2f)
+            .SetEase(Ease.InBounce)
+            .SetLink(gameObject)
+            .OnComplete(() => TilePool.Instance.ReturnTileToPool(this));
 
     }
-    public void Matched()
-    {
-        _state = TileState.Matched;
-        _spriteRenderer.color = Color.red;
-    }
-
+ 
     public void Select()
     {
         SetState(TileState.Selected);
