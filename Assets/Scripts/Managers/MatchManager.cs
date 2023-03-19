@@ -69,6 +69,6 @@ public class MatchManager : SingletonBase<MatchManager>
                 DFS(i, j, value, matchedTiles);
             }
         }
-
     }
+
 }

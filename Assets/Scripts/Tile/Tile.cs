@@ -1,7 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 
-public class Tile : MonoBehaviour, IHittable
+public class Tile : MonoBehaviour, ISelectable
 {
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private LineRenderer _lineRenderer;
@@ -9,6 +9,7 @@ public class Tile : MonoBehaviour, IHittable
     private ItemSO _item;
     private TileState _state = TileState.Idle;
 
+    private bool _canSelect;
     public void SetPosition(Vector2 position, float duration)
     {
         transform.DOMove(position, duration);
@@ -63,6 +64,7 @@ public class Tile : MonoBehaviour, IHittable
     private void IdleStateUpdate()
     {
         _spriteRenderer.color = Color.white;
+        SetSelectStatus(false);
     }
 
     private void SelectedStateUpdate()
@@ -78,6 +80,16 @@ public class Tile : MonoBehaviour, IHittable
     {
         _state = TileState.Matched;
         _spriteRenderer.color = Color.red;
+    }
+
+    public bool GetSelectStatus()
+    {
+        return _canSelect;
+    }
+
+    public void SetSelectStatus(bool value)
+    {
+        _canSelect = true;
     }
 }
 
