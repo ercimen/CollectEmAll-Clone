@@ -10,7 +10,7 @@ public static class CustomEvents
     /// </summary>
 
     #region TileEvents
-    public const string onResetSelectableStatus = nameof(onResetSelectableStatus);
+    public const string onResetTiles = nameof(onResetTiles);
     #endregion
 
 }

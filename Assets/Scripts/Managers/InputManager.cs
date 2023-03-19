@@ -30,6 +30,7 @@ public class InputManager : SingletonBase<InputManager>
     private void SelectTile()
     {
         RaycastHit2D hit = Physics2D.Raycast(_mainCamera.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+      
         if (hit.collider.TryGetComponent(out Tile hitTile))
         {
             Debug.LogWarning(hitTile.GetTileIndex());
@@ -48,7 +49,7 @@ public class InputManager : SingletonBase<InputManager>
 
     private void DeselectTiles()
     {
-        // TO DO
+        EventManager.Instance.Publish(CustomEvents.onResetTiles);
     }
 }
 

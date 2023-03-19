@@ -1,6 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 using Unity.Mathematics;
+using System;
 
 public class Tile : MonoBehaviour, ISelectable
 {
@@ -12,6 +13,21 @@ public class Tile : MonoBehaviour, ISelectable
     private bool _canSelect;
 
     private int2 _tileIndex;
+
+    private void OnEnable()
+    {
+        EventManager.Instance.Subscribe(CustomEvents.onResetTiles, ResetTile);
+    }
+
+    private void OnDisable()
+    {
+        EventManager.Instance.UnSubscribe(CustomEvents.onResetTiles, ResetTile);
+    }
+
+    private void ResetTile(object[] arguments)
+    {
+        SetState(TileState.Idle);
+    }
 
     public int2 GetTileIndex()
     {
@@ -109,11 +125,6 @@ public class Tile : MonoBehaviour, ISelectable
     public void SetSelectStatus(bool value)
     {
         _canSelect = value;
-
-#if UNITY_EDITOR
-        _spriteRenderer.color = Color.green;
-#endif
-
     }
 
 #if UNITY_EDITOR
