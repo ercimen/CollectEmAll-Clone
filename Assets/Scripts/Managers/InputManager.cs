@@ -12,6 +12,9 @@ public class InputManager : SingletonBase<InputManager>
     private bool _onDown;
 
     private Tile _lastTile;
+
+    private Dictionary<Tile, int> _selectedTiles = new();
+
     private void Awake()
     {
         _mainCamera = Camera.main;
@@ -45,6 +48,7 @@ public class InputManager : SingletonBase<InputManager>
             hitTile.Select();
             _onDown = true;
             _lastTile = hitTile;
+            _selectedTiles.Add(hitTile,_selectedTiles.Count);
         }
 
         if (_lastTile == hitTile)
@@ -52,7 +56,30 @@ public class InputManager : SingletonBase<InputManager>
             return;
         }
 
+        int newValue;
+        if (_selectedTiles.TryGetValue(hitTile, out newValue))
+        {
+            int oldValue;
+
+            _selectedTiles.TryGetValue(_lastTile, out oldValue);
+
+            if (newValue == oldValue-1)
+            {
+                _lastTile.UnSelect();
+                _selectedTiles.Remove(_lastTile);
+                _lastTile = hitTile;
+                hitTile.Select();
+                return;
+            }
+        }
+
+
         if (!hitTile.GetSelectStatus())
+        {
+            return;
+        }
+
+        if (hitTile.GetState()==TileState.Selected)
         {
             return;
         }
@@ -60,7 +87,9 @@ public class InputManager : SingletonBase<InputManager>
         Debug.LogWarning(hitTile.GetTileIndex() + " Tile Status=" + hitTile.GetState());
 
         hitTile.Select();
+        hitTile.DrawLine(_lastTile.transform.position);
         _lastTile = hitTile;
+        _selectedTiles.Add(hitTile, _selectedTiles.Count);
         _onDown = true;
     }
 
@@ -74,6 +103,8 @@ public class InputManager : SingletonBase<InputManager>
         EventManager.Instance.Publish(CustomEvents.onResetTiles);
 
         _onDown = false;
+
+        _selectedTiles.Clear();
     }
 }
 

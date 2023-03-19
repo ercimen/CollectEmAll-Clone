@@ -27,6 +27,7 @@ public class Tile : MonoBehaviour, ISelectable
     private void ResetTile(object[] arguments)
     {
         SetState(TileState.Idle);
+        SetSelectStatus(false);
     }
 
     public int2 GetTileIndex()
@@ -120,6 +121,18 @@ public class Tile : MonoBehaviour, ISelectable
 #endif
     }
 
+    public void UnSelect()
+    {
+        SetState(TileState.Idle);
+        SetSelectStatus(false);
+        DrawLine(transform.position);
+    }
+
+    public void DrawLine(Vector2 position)
+    {
+        _lineRenderer.SetPosition(0, transform.position);
+        _lineRenderer.SetPosition(1, position);
+    }
     public bool GetSelectStatus()
     {
         return _canSelect;
