@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InputManager : SingletonBase<InputManager>
+public class SelectManager : SingletonBase<SelectManager>
 {
     [SerializeField] private LayerMask _tileLayer;
 
@@ -20,6 +20,11 @@ public class InputManager : SingletonBase<InputManager>
         _mainCamera = Camera.main;
     }
     private void Update()
+    {
+        InputMethods();
+    }
+
+    private void InputMethods()
     {
         if (Input.GetMouseButton(0))
         {
