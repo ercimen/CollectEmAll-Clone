@@ -15,7 +15,7 @@ public class MatchManager : SingletonBase<MatchManager>
         {
             for (int y = 0; y < tiles.GetLength(1); y++)
             {
-                if (!tiles[x, y].IsMatched())
+                if (tiles[x, y].GetState() != TileState.Matched)
                 {
                     matchedTiles.Clear();
 
@@ -42,12 +42,12 @@ public class MatchManager : SingletonBase<MatchManager>
 
         Tile currentTile = tiles[x, y];
 
-        if (currentTile.IsMatched() || currentTile.GetTileNumber() != value)
+        if (currentTile.GetState() == TileState.Matched || currentTile.GetTileNumber() != value)
         {
             return;
         }
 
-        currentTile.SetMatched(true);
+        currentTile.SetState(TileState.Matched);
         matchedTiles.Add(currentTile);
 
         DFS(x + 1, y, value, matchedTiles);
