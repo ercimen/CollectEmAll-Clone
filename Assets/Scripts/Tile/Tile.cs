@@ -96,7 +96,9 @@ public class Tile : MonoBehaviour, ISelectable
 
     public void Select()
     {
-
+#if UNITY_EDITOR
+        _spriteRenderer.color = Color.black;
+#endif
     }
 
     public bool GetSelectStatus()
