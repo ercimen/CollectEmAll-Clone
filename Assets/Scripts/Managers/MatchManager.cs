@@ -28,8 +28,10 @@ public class MatchManager : SingletonBase<MatchManager>
                         foreach (Tile tile in matchedTiles)
                         {
                             tile.Matched();
-                            matchedCount++;
+
                         }
+
+                        matchedCount++;
                     }
                 }
             }
