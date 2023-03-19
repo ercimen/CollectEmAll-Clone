@@ -1,18 +1,16 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 public class GridManager : SingletonBase<GridManager>
 {
-    [SerializeField] private int gridSize = 6;
 
     private Tile[,] tiles;
 
     public void InitializeGrid(LevelData levelData)
     {
-        gridSize = levelData.column;
-
         tiles = new Tile[levelData.column, levelData.row];
 
         for (int x = 0; x < levelData.column; x++)
@@ -28,26 +26,35 @@ public class GridManager : SingletonBase<GridManager>
         CameraManager.Instance.AutoPositionCamera(new Vector2(levelData.column, levelData.row));
     }
 
-    public void SwapTiles(Tile tile1, Tile tile2)
+    public void SwapTiles(Tile tile1, Tile tile2,float duration)
     {
-
         Vector2 tempPos = tile1.transform.position;
-        tile1.SetPosition(tile2.transform.position, 0.25f);
-        tile2.SetPosition(tempPos, 0.25f);
+        tile1.SetPosition(tile2.transform.position, duration);
+        tile2.SetPosition(tempPos, duration);
+        tile1.SetState(TileState.Idle);
 
         Vector2Int tile1Index = GetTileIndex(tile1);
         Vector2Int tile2Index = GetTileIndex(tile2);
         tiles[tile1Index.x, tile1Index.y] = tile2;
         tiles[tile2Index.x, tile2Index.y] = tile1;
+    }
+    public void SwapTiles(Tile tile1, Tile tile2)
+    {
+        Vector2 tempPos = tile1.transform.position;
+        tile1.transform.position = tile2.transform.position;
+        tile2.transform.position = tempPos;
 
-        MatchManager.Instance.CheckMatches(tiles);
+        Vector2Int tile1Index = GetTileIndex(tile1);
+        Vector2Int tile2Index = GetTileIndex(tile2);
+        tiles[tile1Index.x, tile1Index.y] = tile2;
+        tiles[tile2Index.x, tile2Index.y] = tile1;
     }
 
     private Vector2Int GetTileIndex(Tile tile)
     {
-        for (int x = 0; x < gridSize; x++)
+        for (int x = 0; x < tiles.GetLength(0); x++)
         {
-            for (int y = 0; y < gridSize; y++)
+            for (int y = 0; y < tiles.GetLength(1); y++)
             {
                 if (tiles[x, y] == tile)
                 {
@@ -59,7 +66,31 @@ public class GridManager : SingletonBase<GridManager>
         return Vector2Int.zero;
     }
 
-  public Tile[,] GetTiles()
+    public void ShuffleGrid()
+    {
+        StartCoroutine(ShuffleCoroutine());
+        
+        IEnumerator ShuffleCoroutine()
+        {
+            for (int i = 0; i < tiles.GetLength(0); i++)
+            {
+                for (int j = 0; j < tiles.GetLength(1); j++)
+                {
+                    int newX = UnityEngine.Random.Range(0, tiles.GetLength(0));
+                    int newY = UnityEngine.Random.Range(0, tiles.GetLength(1));
+
+                    Tile tile = tiles[i, j];
+                    SwapTiles(tile, tiles[newX, newY]);
+
+                    yield return null;
+                }
+            }
+        }
+
+       
+    }
+
+    public Tile[,] GetTiles()
     {
         return tiles;
     }

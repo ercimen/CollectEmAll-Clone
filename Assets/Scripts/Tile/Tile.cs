@@ -4,6 +4,7 @@ using DG.Tweening;
 public class Tile : MonoBehaviour, IHittable
 {
     [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private LineRenderer _lineRenderer;
 
     private ItemSO _item;
     private TileState _state = TileState.Idle;

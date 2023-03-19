@@ -11,6 +11,8 @@ public class MatchManager : SingletonBase<MatchManager>
 
         List<Tile> matchedTiles = new List<Tile>();
 
+        int matchedCount = 0;
+
         for (int x = 0; x < tiles.GetLength(0); x++)
         {
             for (int y = 0; y < tiles.GetLength(1); y++)
@@ -26,10 +28,19 @@ public class MatchManager : SingletonBase<MatchManager>
                         foreach (Tile tile in matchedTiles)
                         {
                             tile.Matched();
+                            matchedCount++;
                         }
                     }
                 }
             }
+          
+        }
+
+        GridManager.Instance.ShuffleGrid();
+        Debug.LogWarning("Matched Count: " + matchedCount);
+        if (matchedCount == 0)
+        {
+            GridManager.Instance.ShuffleGrid();
         }
     }
 

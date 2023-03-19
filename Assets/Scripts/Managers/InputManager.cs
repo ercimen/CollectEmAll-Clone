@@ -40,7 +40,7 @@ public class InputManager : MonoBehaviour
                     if (tileDistance == 1)
                         {
                         Debug.LogWarning(tileDistance);
-                        GridManager.Instance.SwapTiles(selectedTile, hitTile);
+                        GridManager.Instance.SwapTiles(selectedTile, hitTile,0.25f);
                         }
                         isTileSelected = false;
                     }
