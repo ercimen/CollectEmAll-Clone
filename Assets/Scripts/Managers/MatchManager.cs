@@ -95,6 +95,7 @@ public class MatchManager : SingletonBase<MatchManager>
         foreach (KeyValuePair<Tile, int> tile in matchedTiles)
         {
             tile.Key.SetState(TileState.Matched);
+            GridManager.Instance.RemoveTileAtGrid(tile.Key.GetTileIndex());
         }
     }
 

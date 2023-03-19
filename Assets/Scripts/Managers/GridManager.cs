@@ -100,8 +100,14 @@ public class GridManager : SingletonBase<GridManager>
         if (isDone) MatchManager.Instance.CheckMatches(tiles);        
     }
 
+    public void RemoveTileAtGrid(int2 value)
+    {
+        tiles[value.x, value.y] = null;
+    }
+
     public Tile[,] GetTiles()
     {
         return tiles;
     }
+
 }
