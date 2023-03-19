@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Mathematics;
 
 
 public class GridManager : SingletonBase<GridManager>
@@ -17,8 +18,9 @@ public class GridManager : SingletonBase<GridManager>
         {
             for (int y = 0; y < levelData.row; y++)
             {
+                int2 tileIndex =new int2(x, y);
                 Tile tile = TileManager.Instance.GetTile(x, y);
-               
+                tile.SetTileIndex(tileIndex);
                 tiles[x, y] = tile;
             }
         }
@@ -32,8 +34,13 @@ public class GridManager : SingletonBase<GridManager>
         tile1.SetPosition(tile2.transform.position, duration);
         tile2.SetPosition(tempPos, duration);
         tile1.SetState(TileState.Idle);
-        Vector2Int tile1Index = GetTileIndex(tile1);
-        Vector2Int tile2Index = GetTileIndex(tile2);
+
+        int2 tile1Index = GetTileIndex(tile1);
+        int2 tile2Index = GetTileIndex(tile2);
+        int2 tempInt2 = tile1Index;
+        tile1.SetTileIndex(tile2Index);
+        tile2.SetTileIndex(tempInt2);
+
         tiles[tile1Index.x, tile1Index.y] = tile2;
         tiles[tile2Index.x, tile2Index.y] = tile1;
     }
@@ -46,26 +53,20 @@ public class GridManager : SingletonBase<GridManager>
         tile1.SetState(TileState.Idle);
         tile2.SetState(TileState.Idle);
 
-        Vector2Int tile1Index = GetTileIndex(tile1);
-        Vector2Int tile2Index = GetTileIndex(tile2);
+        int2 tile1Index = GetTileIndex(tile1);
+        int2 tile2Index = GetTileIndex(tile2);
+        int2 tempInt2 = tile1Index;
+
         tiles[tile1Index.x, tile1Index.y] = tile2;
         tiles[tile2Index.x, tile2Index.y] = tile1;
+
+        tile1.SetTileIndex(tile2Index);
+        tile2.SetTileIndex(tempInt2);
     }
 
-    private Vector2Int GetTileIndex(Tile tile)
+    private int2 GetTileIndex(Tile tile)
     {
-        for (int x = 0; x < tiles.GetLength(0); x++)
-        {
-            for (int y = 0; y < tiles.GetLength(1); y++)
-            {
-                if (tiles[x, y] == tile)
-                {
-                    return new Vector2Int(x, y);
-                }
-            }
-        }
-
-        return Vector2Int.zero;
+        return tile.GetTileIndex();
     }
 
     public void ShuffleGrid()

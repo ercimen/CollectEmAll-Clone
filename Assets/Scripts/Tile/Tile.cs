@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using Unity.Mathematics;
 
 public class Tile : MonoBehaviour, ISelectable
 {
@@ -8,8 +9,19 @@ public class Tile : MonoBehaviour, ISelectable
 
     private ItemSO _item;
     private TileState _state = TileState.Idle;
-
     private bool _canSelect;
+
+    private int2 _tileIndex;
+
+    public int2 GetTileIndex()
+    {
+        return _tileIndex;
+    }
+    public void SetTileIndex(int2 tileIndex)
+    {
+        _tileIndex = tileIndex;
+    }
+
     public void SetPosition(Vector2 position, float duration)
     {
         transform.DOMove(position, duration);
@@ -90,6 +102,11 @@ public class Tile : MonoBehaviour, ISelectable
     public void SetSelectStatus(bool value)
     {
         _canSelect = true;
+    }
+
+    private void OnMouseDown()
+    {
+        Debug.LogWarning(_tileIndex);
     }
 }
 
