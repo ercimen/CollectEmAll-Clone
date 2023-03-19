@@ -18,7 +18,7 @@ public class MatchManager : SingletonBase<MatchManager>
         {
             for (int y = 0; y < tiles.GetLength(1); y++)
             {
-                if (tiles[x, y].GetState() != TileState.Matched)
+                if (!tiles[x, y].CanMatch)
                 {
                     matchedTiles.Clear();
 
@@ -26,12 +26,6 @@ public class MatchManager : SingletonBase<MatchManager>
 
                     if (matchedTiles.Count >= 3)
                     {
-                        foreach (Tile tile in matchedTiles)
-                        {
-                            tile.Matched();
-
-                        }
-
                         matchedCount++;
                     }
                 }
@@ -55,12 +49,12 @@ public class MatchManager : SingletonBase<MatchManager>
 
         Tile currentTile = tiles[x, y];
 
-        if (currentTile.GetState() == TileState.Matched || currentTile.GetTileNumber() != value)
+        if (currentTile.CanMatch || currentTile.GetTileNumber() != value)
         {
             return;
         }
 
-        currentTile.SetState(TileState.Matched);
+        currentTile.CanMatch = true;
         matchedTiles.Add(currentTile);
 
         for (int i = x-1; i <= x+1; i++)

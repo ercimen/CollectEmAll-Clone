@@ -76,6 +76,8 @@ public class SelectManager : SingletonBase<SelectManager>
                 hitTile.Select();
                 return;
             }
+
+            return;
         }
 
 

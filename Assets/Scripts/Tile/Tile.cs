@@ -7,11 +7,11 @@ public class Tile : MonoBehaviour, ISelectable
 {
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private LineRenderer _lineRenderer;
+    public bool CanMatch { set; get;}
 
     private ItemSO _item;
     private TileState _state = TileState.Idle;
     private bool _canSelect;
-
     private int2 _tileIndex;
 
     private void OnEnable()
