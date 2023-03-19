@@ -94,6 +94,11 @@ public class Tile : MonoBehaviour, ISelectable
         _spriteRenderer.color = Color.red;
     }
 
+    public void Select()
+    {
+
+    }
+
     public bool GetSelectStatus()
     {
         return _canSelect;
