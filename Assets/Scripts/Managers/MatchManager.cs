@@ -50,12 +50,13 @@ public class MatchManager : SingletonBase<MatchManager>
         currentTile.SetState(TileState.Matched);
         matchedTiles.Add(currentTile);
 
-        DFS(x + 1, y, value, matchedTiles);
-        DFS(x - 1, y, value, matchedTiles);
-        DFS(x, y + 1, value, matchedTiles);
-        DFS(x, y - 1, value, matchedTiles);
-        DFS(x + 1, y + 1, value, matchedTiles);
-        DFS(x - 1, y - 1, value, matchedTiles);
+        for (int i = x-1; i <= x+1; i++)
+        {
+            for (int j = y-1; j <= y+1; j++)
+            {
+                DFS(i, j, value, matchedTiles);
+            }
+        }
 
     }
 }
