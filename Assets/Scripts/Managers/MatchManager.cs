@@ -33,10 +33,9 @@ public class MatchManager : SingletonBase<MatchManager>
                     }
                 }
             }
-          
+
         }
 
-        GridManager.Instance.ShuffleGrid();
         Debug.LogWarning("Matched Count: " + matchedCount);
         if (matchedCount == 0)
         {

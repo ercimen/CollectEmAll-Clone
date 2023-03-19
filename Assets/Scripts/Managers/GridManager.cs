@@ -43,6 +43,9 @@ public class GridManager : SingletonBase<GridManager>
         tile1.transform.position = tile2.transform.position;
         tile2.transform.position = tempPos;
 
+        tile1.SetState(TileState.Idle);
+        tile2.SetState(TileState.Idle);
+
         Vector2Int tile1Index = GetTileIndex(tile1);
         Vector2Int tile2Index = GetTileIndex(tile2);
         tiles[tile1Index.x, tile1Index.y] = tile2;
@@ -67,9 +70,9 @@ public class GridManager : SingletonBase<GridManager>
 
     public void ShuffleGrid()
     {
-        StartCoroutine(ShuffleCoroutine());
-        
-        IEnumerator ShuffleCoroutine()
+        StartCoroutine(ShuffleCoroutine(ShufleCallback));
+
+        IEnumerator ShuffleCoroutine(Action<bool> callback)
         {
             for (int i = 0; i < tiles.GetLength(0); i++)
             {
@@ -80,13 +83,20 @@ public class GridManager : SingletonBase<GridManager>
 
                     Tile tile = tiles[i, j];
                     SwapTiles(tile, tiles[newX, newY]);
-
                     yield return null;
                 }
             }
+
+            yield return null;
+
+            callback(true);
         }
 
-       
+    }
+
+    public void ShufleCallback(bool isDone)
+    {
+        if (isDone) MatchManager.Instance.CheckMatches(tiles);        
     }
 
     public Tile[,] GetTiles()
