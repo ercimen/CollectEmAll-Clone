@@ -100,6 +100,29 @@ public class GridManager : SingletonBase<GridManager>
         if (isDone) MatchManager.Instance.CheckMatches(tiles);        
     }
 
+    public void ShiftTilesDown()
+    {
+        for (int y = 0; y < tiles.GetLength(1); y++)
+        {
+            for (int x = 0; x < tiles.GetLength(0); x++)
+            {
+                if (tiles[x, y] == null)
+                {
+                    for (int i = y + 1; i < tiles.GetLength(1); i++)
+                    {
+                        if (tiles[x, i] != null)
+                        {
+                            tiles[x, i].SetPosition(new Vector2(x, i - 1),0.2f);
+                            tiles[x, i - 1] = tiles[x, i];
+                            tiles[x, i] = null;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
     public void RemoveTileAtGrid(int2 value)
     {
         tiles[value.x, value.y] = null;

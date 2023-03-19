@@ -97,6 +97,8 @@ public class MatchManager : SingletonBase<MatchManager>
             tile.Key.SetState(TileState.Matched);
             GridManager.Instance.RemoveTileAtGrid(tile.Key.GetTileIndex());
         }
+
+        GridManager.Instance.ShiftTilesDown();
     }
 
 }
