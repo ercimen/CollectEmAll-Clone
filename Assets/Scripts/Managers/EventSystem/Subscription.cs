@@ -1,0 +1,1 @@
+public delegate void Subscription(object[] arguments);
