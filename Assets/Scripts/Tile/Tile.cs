@@ -43,8 +43,37 @@ public class Tile : MonoBehaviour, IHittable
     public void SetState(TileState state)
     {
         _state = state;
+
+        switch (_state)
+        {
+            case TileState.Idle:
+                IdleStateUpdate();
+                break;
+            case TileState.Selected:
+                SelectedStateUpdate();
+                break;
+            case TileState.Matched:
+                MatchedStateUpdate();
+                break;
+            default:
+                break;
+        }
     }
 
+    private void IdleStateUpdate()
+    {
+        _spriteRenderer.color = Color.white;
+    }
+
+    private void SelectedStateUpdate()
+    {
+
+    }
+
+    private void MatchedStateUpdate()
+    {
+
+    }
     public void Matched()
     {
         _state = TileState.Matched;

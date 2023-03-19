@@ -32,7 +32,6 @@ public class GridManager : SingletonBase<GridManager>
         tile1.SetPosition(tile2.transform.position, duration);
         tile2.SetPosition(tempPos, duration);
         tile1.SetState(TileState.Idle);
-
         Vector2Int tile1Index = GetTileIndex(tile1);
         Vector2Int tile2Index = GetTileIndex(tile2);
         tiles[tile1Index.x, tile1Index.y] = tile2;
