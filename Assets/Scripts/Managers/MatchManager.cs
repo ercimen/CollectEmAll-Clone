@@ -74,6 +74,8 @@ public class MatchManager : SingletonBase<MatchManager>
 
     public void CheckNeighbors(Tile selectedTile)
     {
+        EventManager.Instance.Publish(CustomEvents.onResetTiles);
+
         int2 tileIndex = selectedTile.GetTileIndex();
 
         Debug.LogWarning(tileIndex);      

@@ -62,7 +62,6 @@ public class InputManager : SingletonBase<InputManager>
         hitTile.Select();
         _lastTile = hitTile;
         _onDown = true;
-
     }
 
     private void DeselectTiles()
