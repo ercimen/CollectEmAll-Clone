@@ -15,6 +15,8 @@ public class SelectManager : SingletonBase<SelectManager>
 
     private Dictionary<Tile, int> _selectedTiles = new();
 
+    private int _selectedTileCount;
+
     private void Awake()
     {
         _mainCamera = Camera.main;
@@ -53,7 +55,10 @@ public class SelectManager : SingletonBase<SelectManager>
             hitTile.Select();
             _onDown = true;
             _lastTile = hitTile;
-            _selectedTiles.Add(hitTile,_selectedTiles.Count);
+            _selectedTiles.Add(hitTile, _selectedTiles.Count);
+
+            _selectedTileCount++;
+            SoundManager.Instance.PlayTileClickSound(_selectedTileCount);
         }
 
         if (_lastTile == hitTile)
@@ -74,6 +79,9 @@ public class SelectManager : SingletonBase<SelectManager>
                 _selectedTiles.Remove(_lastTile);
                 _lastTile = hitTile;
                 hitTile.Select();
+
+                _selectedTileCount--;
+                SoundManager.Instance.PlayTileClickSound(_selectedTileCount);
                 return;
             }
 
@@ -97,6 +105,10 @@ public class SelectManager : SingletonBase<SelectManager>
         hitTile.DrawLine(_lastTile.transform.position);
         _lastTile = hitTile;
         _selectedTiles.Add(hitTile, _selectedTiles.Count);
+
+        _selectedTileCount++;
+        SoundManager.Instance.PlayTileClickSound(_selectedTileCount);
+
         _onDown = true;
     }
 
@@ -117,6 +129,8 @@ public class SelectManager : SingletonBase<SelectManager>
         }
 
         _selectedTiles.Clear();
+
+        _selectedTileCount = 0;
     }
 }
 
