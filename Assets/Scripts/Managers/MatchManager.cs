@@ -98,7 +98,7 @@ public class MatchManager : SingletonBase<MatchManager>
             GridManager.Instance.RemoveTileAtGrid(tile.Key.GetTileIndex());
         }
 
-        GridManager.Instance.ShiftTilesDown();
+        GridManager.Instance.FillEmptyTiles();
     }
 
 }
