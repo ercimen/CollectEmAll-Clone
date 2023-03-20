@@ -126,6 +126,7 @@ public class SelectManager : SingletonBase<SelectManager>
         if (_selectedTiles.Count >= 3)
         {
             MatchManager.Instance.MatchTiles(_selectedTiles);
+            SoundManager.Instance.PlayMatchedSound();
         }
 
         _selectedTiles.Clear();
