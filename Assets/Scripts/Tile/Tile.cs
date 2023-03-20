@@ -15,6 +15,13 @@ public class Tile : MonoBehaviour, ISelectable
     private bool _canSelect;
     private int2 _tileIndex;
 
+    private TileAnimations _tileAnimations;
+
+    private void Awake()
+    {
+        _tileAnimations = GetComponent<TileAnimations>();
+    }
+
     private void OnEnable()
     {
         InitTile();
@@ -35,21 +42,9 @@ public class Tile : MonoBehaviour, ISelectable
     {
         SetState(TileState.Idle);
         SetSelectStatus(false);
-        StartCoroutine(InitAnimation());
 
-        IEnumerator InitAnimation()
-        {
-            transform.localScale = Vector3.zero;
-            yield return new WaitForSeconds(0.3f);
-            Vector2 oldPosition = transform.position;
-            Vector2 newPosition = transform.position + new Vector3(0, 20);
-            transform.position = newPosition;
-            transform.DOMove(oldPosition, 0.3f).SetEase(Ease.Flash).SetLink(gameObject);
-            transform.DOScale(Vector2.one, 0.5f)
-            .SetEase(Ease.InOutBounce)
-            .SetLink(gameObject);
-        }
-          
+        _tileAnimations.PlayIdleAnimation();
+
     }
     private void ResetTile(object[] arguments)
     {
@@ -85,11 +80,6 @@ public class Tile : MonoBehaviour, ISelectable
     private void SetSprite()
     {
         _spriteRenderer.sprite = _item.GetSprite();
-    }
-
-    public void GetHit()
-    {
-        _spriteRenderer.color = Color.red;
     }
 
     public int GetTileNumber()
@@ -130,7 +120,7 @@ public class Tile : MonoBehaviour, ISelectable
 
     private void SelectedStateUpdate()
     {
-
+        _tileAnimations.PlaySelectAnimation();
     }
 
     private void MatchedStateUpdate()
@@ -146,10 +136,6 @@ public class Tile : MonoBehaviour, ISelectable
     {
         SetState(TileState.Selected);
         MatchManager.Instance.CheckNeighbors(this);
-
-#if UNITY_EDITOR
-        _spriteRenderer.color = Color.black;
-#endif
     }
 
     public void UnSelect()
@@ -157,6 +143,7 @@ public class Tile : MonoBehaviour, ISelectable
         SetState(TileState.Idle);
         SetSelectStatus(false);
         DrawLine(transform.position);
+        _tileAnimations.PlayUnSelectAnimation();
     }
 
     public void DrawLine(Vector2 position)

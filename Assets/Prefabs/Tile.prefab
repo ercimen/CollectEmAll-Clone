@@ -310,6 +310,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1982153594474778093}
   - component: {fileID: 8274924897554216551}
+  - component: {fileID: 8473452957271639763}
   - component: {fileID: 1142045711460152159}
   m_Layer: 3
   m_Name: Tile
@@ -349,6 +350,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _spriteRenderer: {fileID: 6604832897394886786}
   _lineRenderer: {fileID: 4170428952351888399}
+--- !u!114 &8473452957271639763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6932544930459341007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d86214a97d652fb43a09cfd332b4e23d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!61 &1142045711460152159
 BoxCollider2D:
   m_ObjectHideFlags: 0

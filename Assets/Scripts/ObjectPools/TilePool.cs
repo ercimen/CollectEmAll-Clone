@@ -4,7 +4,7 @@ using UnityEngine;
 public class TilePool : SingletonBase<TilePool>
 {
     [SerializeField] private Tile tilePrefab;
-    [SerializeField] private int initialPoolSize = 100;
+    [SerializeField] private int initialPoolSize = 500;
 
     private Queue<Tile> tilePool = new();
 
