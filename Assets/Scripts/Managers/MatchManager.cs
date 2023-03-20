@@ -92,13 +92,22 @@ public class MatchManager : SingletonBase<MatchManager>
 
     public void MatchTiles(Dictionary<Tile,int> matchedTiles)
     {
+        int minX = 999;
+        int maxX = 0;
+
         foreach (KeyValuePair<Tile, int> tile in matchedTiles)
         {
             tile.Key.SetState(TileState.Matched);
+
+            if (tile.Key.GetTileIndex().x < minX) minX = tile.Key.GetTileIndex().x;
+
+            if (tile.Key.GetTileIndex().x > maxX) maxX = tile.Key.GetTileIndex().x;
+
             GridManager.Instance.RemoveTileAtGrid(tile.Key.GetTileIndex());
         }
 
-        GridManager.Instance.FillEmptyTiles();
+        Debug.LogWarning(minX + ":" + maxX);
+        GridManager.Instance.FillEmptyTiles(minX,maxX);
     }
 
 }

@@ -100,9 +100,9 @@ public class GridManager : SingletonBase<GridManager>
         if (isDone) MatchManager.Instance.CheckMatches(tiles);        
     }
 
-    public void FillEmptyTiles()
+    public void FillEmptyTiles(int minX, int maxX)
     {
-        for (int x = 0; x < tiles.GetLength(0); x++)
+        for (int x = minX; x <= maxX; x++)
         {
             int emptyCount = 0;
 
@@ -130,7 +130,24 @@ public class GridManager : SingletonBase<GridManager>
                 }
             }
         }
+
+        for (int x = minX; x <= maxX; x++)
+        {
+            for (int y = tiles.GetLength(1)-1; y >= 0; y--)
+            {
+                if (tiles[x, y] == null)
+                {
+                    int2 tileIndex = new int2(x, y);
+                    Tile tile = TileManager.Instance.GetTile(x, y);
+                    tile.SetTileIndex(tileIndex);
+                    tiles[x, y] = tile;
+                }
+            }
+        }
+
     }
+
+ 
 
     public void RemoveTileAtGrid(int2 value)
     {

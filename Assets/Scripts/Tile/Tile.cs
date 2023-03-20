@@ -2,12 +2,13 @@ using UnityEngine;
 using DG.Tweening;
 using Unity.Mathematics;
 using System;
+using System.Collections;
 
 public class Tile : MonoBehaviour, ISelectable
 {
     [SerializeField] private SpriteRenderer _spriteRenderer;
     [SerializeField] private LineRenderer _lineRenderer;
-    public bool CanMatch { set; get;}
+    public bool CanMatch { set; get; }
 
     private ItemSO _item;
     private TileState _state = TileState.Idle;
@@ -34,7 +35,21 @@ public class Tile : MonoBehaviour, ISelectable
     {
         SetState(TileState.Idle);
         SetSelectStatus(false);
-        transform.localScale = Vector3.one;
+        StartCoroutine(InitAnimation());
+
+        IEnumerator InitAnimation()
+        {
+            transform.localScale = Vector3.zero;
+            yield return new WaitForSeconds(0.3f);
+            Vector2 oldPosition = transform.position;
+            Vector2 newPosition = transform.position + new Vector3(0, 20);
+            transform.position = newPosition;
+            transform.DOMove(oldPosition, 0.3f).SetEase(Ease.Flash).SetLink(gameObject);
+            transform.DOScale(Vector2.one, 0.5f)
+            .SetEase(Ease.InOutBounce)
+            .SetLink(gameObject);
+        }
+          
     }
     private void ResetTile(object[] arguments)
     {
@@ -126,7 +141,7 @@ public class Tile : MonoBehaviour, ISelectable
             .OnComplete(() => TilePool.Instance.ReturnTileToPool(this));
 
     }
- 
+
     public void Select()
     {
         SetState(TileState.Selected);
